@@ -43,6 +43,10 @@
                     </div>
                 </a>
                 <div class="nav-stats">
+                    <button class="theme-toggle" id="theme-toggle" title="Temayı Değiştir">
+                        <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                    </button>
                     <div class="nav-stat" data-tooltip="Toplam İlan">
                         <div class="nav-stat-icon">📋</div>
                         <div class="nav-stat-content">
@@ -105,6 +109,27 @@
             </div>
         </div>
     </header>
+
+    <!-- Search & Add Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-glass">
+                <div class="search-row">
+                    <div class="search-box">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="search-input" placeholder="İlan ara... (konum, başlık veya detay)" autocomplete="off">
+                        <button class="search-clear hidden" id="search-clear">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                    <button class="btn-yeni-ilan" id="btn-yeni-ilan">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Yeni İlan Ekle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Filters Section -->
     <section class="filters-section">
@@ -176,6 +201,367 @@
 
     <!-- Overlay -->
     <div class="overlay hidden" id="overlay"></div>
+
+    <!-- Acil Durum İletişim -->
+    <section class="emergency-section">
+        <div class="container">
+            <div class="emergency-glass">
+                <h2 class="section-heading">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    Acil Durum Telefonları
+                </h2>
+                <div class="emergency-grid">
+                    <a href="tel:112" class="emergency-card ec-red">
+                        <div class="ec-icon">🚨</div>
+                        <div class="ec-info">
+                            <span class="ec-num">112</span>
+                            <span class="ec-label">Acil Çağrı Merkezi</span>
+                        </div>
+                    </a>
+                    <a href="tel:122" class="emergency-card ec-orange">
+                        <div class="ec-icon">🔥</div>
+                        <div class="ec-info">
+                            <span class="ec-num">110</span>
+                            <span class="ec-label">İtfaiye</span>
+                        </div>
+                    </a>
+                    <a href="tel:155" class="emergency-card ec-blue">
+                        <div class="ec-icon">👮</div>
+                        <div class="ec-info">
+                            <span class="ec-num">155</span>
+                            <span class="ec-label">Polis İmdat</span>
+                        </div>
+                    </a>
+                    <a href="tel:156" class="emergency-card ec-green">
+                        <div class="ec-icon">🪖</div>
+                        <div class="ec-info">
+                            <span class="ec-num">156</span>
+                            <span class="ec-label">Jandarma İmdat</span>
+                        </div>
+                    </a>
+                    <a href="tel:122" class="emergency-card ec-teal">
+                        <div class="ec-icon">🏗️</div>
+                        <div class="ec-info">
+                            <span class="ec-num">122</span>
+                            <span class="ec-label">AFAD</span>
+                        </div>
+                    </a>
+                    <a href="tel:168" class="emergency-card ec-crimson">
+                        <div class="ec-icon">🏥</div>
+                        <div class="ec-info">
+                            <span class="ec-num">168</span>
+                            <span class="ec-label">Kızılay</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Afet Bilgilendirme Bölümü -->
+    <section class="prep-section">
+        <div class="container">
+            <div class="prep-glass">
+                <h2 class="section-heading">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                    Afet Anında Ne Yapmalı?
+                </h2>
+
+                <!-- Afet Sekmeleri -->
+                <div class="disaster-tabs" id="disaster-tabs">
+                    <button class="disaster-tab active" data-disaster="deprem">🌍 Deprem</button>
+                    <button class="disaster-tab" data-disaster="sel">🌊 Sel / Su Baskını</button>
+                    <button class="disaster-tab" data-disaster="yangin">🔥 Yangın</button>
+                    <button class="disaster-tab" data-disaster="firtina">⛈️ Fırtına / Hortum</button>
+                    <button class="disaster-tab" data-disaster="cig">❄️ Çığ / Kar Fırtınası</button>
+                    <button class="disaster-tab" data-disaster="heyelan">🏔️ Heyelan</button>
+                </div>
+
+                <!-- DEPREM -->
+                <div class="disaster-content active" id="disaster-deprem">
+                    <div class="prep-grid">
+                        <div class="prep-card">
+                            <div class="prep-step">1</div>
+                            <h4>Çök - Kapan - Tutun</h4>
+                            <p>Sarsıntı başladığında yere çökün, sağlam bir masa altına girin ve masa ayağına tutunun. Hareket etmeyin.</p>
+                        </div>
+                        <div class="prep-card">
+                            <div class="prep-step">2</div>
+                            <h4>Pencere ve Balkondan Uzak Durun</h4>
+                            <p>Cam kırılması ve düşme tehlikesi nedeniyle pencere, ayna, avize ve balkonlardan uzak durun.</p>
+                        </div>
+                        <div class="prep-card">
+                            <div class="prep-step">3</div>
+                            <h4>Asansör Kullanmayın</h4>
+                            <p>Sarsıntı durduğunda binayı merdivenden terk edin. Asansör kesinlikle kullanılmamalıdır.</p>
+                        </div>
+                        <div class="prep-card">
+                            <div class="prep-step">4</div>
+                            <h4>Acil Çantanızı Hazırlayın</h4>
+                            <p>Su, enerji barı, el feneri, düdük, ilaçlar, kimlik fotokopileri ve powerbank içeren bir deprem çantası bulundurun.</p>
+                        </div>
+                        <div class="prep-card">
+                            <div class="prep-step">5</div>
+                            <h4>Buluşma Noktası Belirleyin</h4>
+                            <p>Ailenizle önceden bir toplanma alanı ve iletişim planı belirleyin. AFAD toplanma alanlarını kontrol edin.</p>
+                        </div>
+                        <div class="prep-card">
+                            <div class="prep-step">6</div>
+                            <h4>Artçı Sarsıntılara Dikkat</h4>
+                            <p>Ana depremden sonra artçı sarsıntılar olabilir. Hasarlı binalara girmeyin, açık alanda kalın.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEL / SU BASKINI -->
+                <div class="disaster-content" id="disaster-sel">
+                    <div class="prep-grid">
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">1</div>
+                            <h4>Yüksek Yerlere Çıkın</h4>
+                            <p>Su seviyesi yükselmeye başladığında hemen yüksek bir yere (tepe, üst kat) çıkın. Alçak bölgeler, köprü altları ve dere yataklarından uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">2</div>
+                            <h4>Akan Suda Yürümeyin</h4>
+                            <p>15 cm derinlikteki su bile sizi devirebilir. Aracınızla su birikintisine girmeyin; 60 cm su aracı sürükleyebilir.</p>
+                        </div>
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">3</div>
+                            <h4>Elektrik ve Gazı Kapatın</h4>
+                            <p>Su bina içine girmeye başladığında ana elektrik şalterini ve gaz vanalarını kapatın. Islak alanlardan uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">4</div>
+                            <h4>Sel Suyuna Dokunmayın</h4>
+                            <p>Sel suları kanalizasyon, kimyasal atık ve tehlikeli maddeler içerebilir. Çocukları sudan uzak tutun, yara varsa temas etmeyin.</p>
+                        </div>
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">5</div>
+                            <h4>Resmi Uyarıları Takip Edin</h4>
+                            <p>AFAD ve Meteoroloji uyarılarını takip edin. Tahliye emri verilirse derhal güvenli bölgeye gidin.</p>
+                        </div>
+                        <div class="prep-card prep-card-sel">
+                            <div class="prep-step prep-step-sel">6</div>
+                            <h4>Su Çekildikten Sonra Dikkat</h4>
+                            <p>Sel suları çekildikten sonra bina hasarını kontrol ettirin. Su basmış yiyecekleri tüketmeyin, musluk suyunu arıtılmadan içmeyin.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YANGIN -->
+                <div class="disaster-content" id="disaster-yangin">
+                    <div class="prep-grid">
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">1</div>
+                            <h4>Hemen Tahliye Edin</h4>
+                            <p>Yangın alarmı duyduğunuzda derhal binayı terk edin. Eşya toplamak için vakit harcamayın, canınız her şeyden değerlidir.</p>
+                        </div>
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">2</div>
+                            <h4>Alçaktan İlerleyin</h4>
+                            <p>Duman yukarıda birikir. Eğilerek ya da emekleyerek ilerleyin. Ağzınızı ve burnunuzu ıslak bir bezle kapatın.</p>
+                        </div>
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">3</div>
+                            <h4>Kapıyı Kontrol Edin</h4>
+                            <p>Kapıyı açmadan önce el tersiyle dokunun. Sıcaksa açmayın — arkasında ateş olabilir. Alternatif çıkış arayın.</p>
+                        </div>
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">4</div>
+                            <h4>Asansörü Kullanmayın</h4>
+                            <p>Yangın sırasında asansör kesinlikle kullanılmamalıdır. Merdiveni kullanın, paniğe kapılmayın.</p>
+                        </div>
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">5</div>
+                            <h4>Orman Yangınında Uzaklaşın</h4>
+                            <p>Rüzgâr yönünün tersine hareket edin. Aracınızla kaçıyorsanız farları açık tutun. Dumanın yoğun olduğu alana girmeyin.</p>
+                        </div>
+                        <div class="prep-card prep-card-yangin">
+                            <div class="prep-step prep-step-yangin">6</div>
+                            <h4>Yangın Söndürücü Kullanımı</h4>
+                            <p>Küçük yangınlarda söndürücünün pimini çekin, hortumu ateşin kaidesine doğrultun ve kısa aralıklarla sıkın (PASS yöntemi).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIRTINA / HORTUM -->
+                <div class="disaster-content" id="disaster-firtina">
+                    <div class="prep-grid">
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">1</div>
+                            <h4>Kapalı Alana Sığının</h4>
+                            <p>Fırtına uyarısı aldığınızda sağlam bir binanın iç odalarına sığının. Pencere ve dış duvarlardan uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">2</div>
+                            <h4>Açık Alandaysanız Yere Yatın</h4>
+                            <p>Açık alanda yakalandıysanız çukur bir yere yatın, başınızı ellerinizle koruyun. Ağaç ve direklerden uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">3</div>
+                            <h4>Araçtaysanız Durun</h4>
+                            <p>Aracı güvenli bir yere çekip emniyet kemerinizi takın. Köprü altına sığınmayın, hortum köprüleri etkiler.</p>
+                        </div>
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">4</div>
+                            <h4>Uçan Nesnelerden Korunun</h4>
+                            <p>Bahçe mobilyaları, çöp konteynerleri ve levhaları sabitleyin veya içeri alın. Şiddetli rüzgâr bunları mermiye çevirebilir.</p>
+                        </div>
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">5</div>
+                            <h4>Yıldırımdan Korunma</h4>
+                            <p>Gök gürültüsü duyuyorsanız yıldırım mesafenizdesiniz. Su birikintileri, metal nesneler ve yüksek noktalardan uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-firtina">
+                            <div class="prep-step prep-step-firtina">6</div>
+                            <h4>Acil Kit Hazırlayın</h4>
+                            <p>Pilli radyo, el feneri, yedek pil, ilk yardım çantası ve 3 günlük su ve gıda stoku bulundurun.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ÇIĞ / KAR FIRTINASI -->
+                <div class="disaster-content" id="disaster-cig">
+                    <div class="prep-grid">
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">1</div>
+                            <h4>Çığ Bölgelerinden Uzak Durun</h4>
+                            <p>35°-45° eğimli yamaçlar en tehlikelidir. Yeni kar yağışı sonrası dik yamaçlardan geçmeyin.</p>
+                        </div>
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">2</div>
+                            <h4>Çığa Yakalanırsanız Yüzün</h4>
+                            <p>Karın içinde yüzme hareketi yaparak yüzeyde kalmaya çalışın. Ağzınızı ve burnunuzu kapatarak nefes boşluğu oluşturun.</p>
+                        </div>
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">3</div>
+                            <h4>Kar Gözlüğü Kullanılmalı</h4>
+                            <p>Kar körlüğü ciddi bir tehlikedir. Parlak gün ve yoğun kar yağışında koruyucu gözlük takın.</p>
+                        </div>
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">4</div>
+                            <h4>Hipotermi Belirtilerini Bilin</h4>
+                            <p>Kontrolsüz titreme, uyuklama, konuşma güçlüğü hipoterminin belirtileridir. Kişiyi ısıtın ve acil tıbbi yardım çağırın.</p>
+                        </div>
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">5</div>
+                            <h4>Aracınızda Kalın</h4>
+                            <p>Kar fırtınasında yolda kaldıysanız aracınızı terk etmeyin. Egzoz borusunu açık tutun, motoru aralıklı çalıştırın.</p>
+                        </div>
+                        <div class="prep-card prep-card-cig">
+                            <div class="prep-step prep-step-cig">6</div>
+                            <h4>Kış Acil Kit Bulundurun</h4>
+                            <p>Araçta battaniye, kürek, zincir, yedek giysi, mum, çakmak ve yüksek kalorili atıştırmalık bulundurun.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HEYELAN -->
+                <div class="disaster-content" id="disaster-heyelan">
+                    <div class="prep-grid">
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">1</div>
+                            <h4>Uyarı İşaretlerini Tanıyın</h4>
+                            <p>Duvarlardaki yeni çatlaklar, eğilen ağaçlar, yerden çıkan su ve zemindeki kabarma heyelan habercisidir.</p>
+                        </div>
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">2</div>
+                            <h4>Yamaçtan Yana Kaçın</h4>
+                            <p>Heyelan başladığında toprak akışına dik yönde (yana doğru) koşarak uzaklaşın. Aşağı yönde kaçmayın.</p>
+                        </div>
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">3</div>
+                            <h4>Yoğun Yağışlarda Dikkat</h4>
+                            <p>Uzun süreli veya şiddetli yağışlar heyelan riskini artırır. Yamaç ve dere kenarlarından uzak durun.</p>
+                        </div>
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">4</div>
+                            <h4>Binada Kalın Ama Hazır Olun</h4>
+                            <p>Yamaç tarafında olmayan odalarda kalın. Acil çantanız kapının yanında hazır bulunsun.</p>
+                        </div>
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">5</div>
+                            <h4>Gece Olduğunda Uyanık Kalın</h4>
+                            <p>Heyelanların çoğu gece olur. Şiddetli yağışlarda uyanık kalın, anormal sesler duyarsanız tahliye edin.</p>
+                        </div>
+                        <div class="prep-card prep-card-heyelan">
+                            <div class="prep-step prep-step-heyelan">6</div>
+                            <h4>Heyelan Sonrası Dikkat</h4>
+                            <p>Bölgeye dönmeden yetkililerin onayını bekleyin. İkincil heyelan riski devam edebilir, hasarlı yapılara girmeyin.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Yeni İlan Ekleme Modal -->
+    <div class="modal hidden" id="ilan-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Yeni İlan Ekle
+                </h3>
+                <button class="modal-close" id="modal-close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="ilan-form" class="modal-form">
+                <div class="form-group">
+                    <label for="form-tip">İlan Tipi</label>
+                    <div class="form-radio-group">
+                        <label class="form-radio">
+                            <input type="radio" name="tip" value="ihtiyac" checked>
+                            <span class="radio-custom radio-ihtiyac">🔴 İhtiyacım Var</span>
+                        </label>
+                        <label class="form-radio">
+                            <input type="radio" name="tip" value="destek">
+                            <span class="radio-custom radio-destek">🟢 Destek Sunabilirim</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="form-baslik">Başlık</label>
+                    <input type="text" id="form-baslik" placeholder="Kısa ve açıklayıcı bir başlık" required>
+                </div>
+                <div class="form-group">
+                    <label for="form-detay">Detaylı Açıklama</label>
+                    <textarea id="form-detay" rows="3" placeholder="İhtiyaç veya desteğinizi detaylı açıklayın..." required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-kategori">Kategori</label>
+                        <select id="form-kategori" required>
+                            <option value="gida">🍞 Gıda</option>
+                            <option value="barinma">🏠 Barınma</option>
+                            <option value="saglik">🏥 Sağlık</option>
+                            <option value="hayvanlar">🐾 Hayvanlar</option>
+                            <option value="egitim">📚 Eğitim</option>
+                            <option value="esya">📦 Eşya</option>
+                            <option value="psikoloji">🧠 Psikoloji</option>
+                            <option value="lojistik">🚚 Lojistik</option>
+                            <option value="cocuk">🧒 Çocuk</option>
+                            <option value="is">💼 İş</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-konum">Konum</label>
+                        <input type="text" id="form-konum" placeholder="İl / İlçe" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="form-acil">
+                        <span class="checkbox-custom">⚡ Bu acil bir durum</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-form-submit">İlanı Yayınla</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

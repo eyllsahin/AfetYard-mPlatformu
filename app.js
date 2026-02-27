@@ -37,6 +37,7 @@ let ilanlar = [];
 let ustlenilenler = [];
 let aktifKategori = "tumu";
 let aktifTip = "tumu";
+let aramaMetni = "";
 let isOffline = false;
 
 // ---- DOM REFERANSLARI ----
@@ -57,6 +58,12 @@ const overlay = document.getElementById("overlay");
 const statTotal = document.getElementById("stat-total");
 const statAcil = document.getElementById("stat-acil");
 const statUstlenilen = document.getElementById("stat-ustlenilen");
+const searchInput = document.getElementById("search-input");
+const searchClear = document.getElementById("search-clear");
+const btnYeniIlan = document.getElementById("btn-yeni-ilan");
+const ilanModal = document.getElementById("ilan-modal");
+const modalClose = document.getElementById("modal-close");
+const ilanForm = document.getElementById("ilan-form");
 
 // ============================================================
 //  VERİ YÜKLEME ve ÇEVRİMDIŞI KONTROL
@@ -150,6 +157,17 @@ function ilanlariFiltrele() {
         sonuc = sonuc.filter(ilan => ilan.tip === aktifTip);
     }
 
+    // Arama filtresi
+    if (aramaMetni.trim() !== "") {
+        const aranan = aramaMetni.toLowerCase().trim();
+        sonuc = sonuc.filter(ilan => 
+            ilan.baslik.toLowerCase().includes(aranan) ||
+            ilan.detay.toLowerCase().includes(aranan) ||
+            ilan.konum.toLowerCase().includes(aranan) ||
+            (KATEGORI_META[ilan.kategori]?.label || "").toLowerCase().includes(aranan)
+        );
+    }
+
     // Acil olanları önce göster
     sonuc.sort((a, b) => {
         if (a.acil === b.acil) return new Date(b.tarih) - new Date(a.tarih);
@@ -179,6 +197,7 @@ function ilanlariGoster(liste) {
         const tipLabel = ilan.tip === "ihtiyac" ? "İhtiyaç" : "Destek";
         const badgeClass = ilan.tip === "ihtiyac" ? "badge-ihtiyac" : "badge-destek";
         const tarihFormatli = tarihFormatlaTR(ilan.tarih);
+        const zamanOnce = gorecliZaman(ilan.tarih);
 
         return `
         <div class="ilan-card tip-${ilan.tip}">
@@ -193,15 +212,20 @@ function ilanlariGoster(liste) {
             <p class="card-detay">${ilan.detay}</p>
             <div class="card-meta">
                 <span class="meta-konum">📍 ${ilan.konum}</span>
-                <span class="meta-tarih">📅 ${tarihFormatli}</span>
+                <span class="meta-tarih" title="${tarihFormatli}">🕐 ${zamanOnce}</span>
             </div>
-            <button class="btn-ustlen ${ustlenildi ? 'ustlenildi' : ''}" 
-                    data-id="${ilan.id}"
-                    ${ustlenildi ? 'disabled' : ''}>
-                ${ustlenildi 
-                    ? '✅ Üstlenildi' 
-                    : '🤝 Ben Üstleniyorum'}
-            </button>
+            <div class="card-actions">
+                <button class="btn-ustlen ${ustlenildi ? 'ustlenildi' : ''}" 
+                        data-id="${ilan.id}"
+                        ${ustlenildi ? 'disabled' : ''}>
+                    ${ustlenildi 
+                        ? '✅ Üstlenildi' 
+                        : '🤝 Ben Üstleniyorum'}
+                </button>
+                <button class="btn-paylas" data-id="${ilan.id}" title="Bu ilanı paylaş">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </button>
+            </div>
         </div>`;
     }).join("");
 
@@ -210,6 +234,14 @@ function ilanlariGoster(liste) {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.dataset.id);
             ilanUstlen(id);
+        });
+    });
+
+    // Paylaş butonlarına event ekle
+    ilanGrid.querySelectorAll(".btn-paylas").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = parseInt(btn.dataset.id);
+            ilanPaylas(id);
         });
     });
 
@@ -224,6 +256,25 @@ function tarihFormatlaTR(tarihStr) {
                    "Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
     const d = new Date(tarihStr);
     return `${d.getDate()} ${aylar[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+// ============================================================
+//  GÖRECELİ ZAMAN (örn: "2 gün önce")
+// ============================================================
+function gorecliZaman(tarihStr) {
+    const simdi = new Date();
+    const tarih = new Date(tarihStr);
+    const farkMs = simdi - tarih;
+    const farkDk = Math.floor(farkMs / 60000);
+    const farkSaat = Math.floor(farkMs / 3600000);
+    const farkGun = Math.floor(farkMs / 86400000);
+
+    if (farkDk < 1) return "Az önce";
+    if (farkDk < 60) return `${farkDk} dakika önce`;
+    if (farkSaat < 24) return `${farkSaat} saat önce`;
+    if (farkGun < 7) return `${farkGun} gün önce`;
+    if (farkGun < 30) return `${Math.floor(farkGun / 7)} hafta önce`;
+    return tarihFormatlaTR(tarihStr);
 }
 
 // ============================================================
@@ -379,6 +430,144 @@ window.addEventListener("offline", () => {
 });
 
 // ============================================================
+//  İLAN PAYLAŞMA
+// ============================================================
+function ilanPaylas(id) {
+    const ilan = ilanlar.find(i => i.id === id);
+    if (!ilan) return;
+
+    const tipLabel = ilan.tip === "ihtiyac" ? "İhtiyaç" : "Destek";
+    const paylasMetni = `🆘 AfetYardım - ${tipLabel}\n\n📋 ${ilan.baslik}\n📍 ${ilan.konum}\n\n${ilan.detay}\n\n${ilan.acil ? '⚡ ACİL DURUM\n' : ''}#AfetYardım #Dayanışma`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: `AfetYardım: ${ilan.baslik}`,
+            text: paylasMetni
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(paylasMetni).then(() => {
+            toastGoster("İlan bilgileri panoya kopyalandı!");
+        }).catch(() => {
+            toastGoster("Paylaşım yapılamadı.");
+        });
+    }
+}
+
+// ============================================================
+//  ARAMA FONKSİYONU
+// ============================================================
+function aramaAyarla() {
+    let aramaTimeout;
+    searchInput.addEventListener("input", () => {
+        clearTimeout(aramaTimeout);
+        aramaTimeout = setTimeout(() => {
+            aramaMetni = searchInput.value;
+            searchClear.classList.toggle("hidden", aramaMetni.trim() === "");
+            ilanlariFiltrele();
+        }, 250);
+    });
+
+    searchClear.addEventListener("click", () => {
+        searchInput.value = "";
+        aramaMetni = "";
+        searchClear.classList.add("hidden");
+        ilanlariFiltrele();
+        searchInput.focus();
+    });
+}
+
+// ============================================================
+//  YENİ İLAN EKLEME MODAL
+// ============================================================
+function modalAyarla() {
+    btnYeniIlan.addEventListener("click", () => {
+        ilanModal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    });
+
+    modalClose.addEventListener("click", () => {
+        ilanModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    });
+
+    // Overlay'a tıklayınca modal da kapansın
+    overlay.addEventListener("click", () => {
+        ilanModal.classList.add("hidden");
+    });
+
+    ilanForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const tip = document.querySelector('input[name="tip"]:checked').value;
+        const baslik = document.getElementById("form-baslik").value.trim();
+        const detay = document.getElementById("form-detay").value.trim();
+        const kategori = document.getElementById("form-kategori").value;
+        const konum = document.getElementById("form-konum").value.trim();
+        const acil = document.getElementById("form-acil").checked;
+
+        if (!baslik || !detay || !konum) {
+            toastGoster("Lütfen tüm alanları doldurun.");
+            return;
+        }
+
+        // Yeni ID oluştur
+        const yeniId = Math.max(...ilanlar.map(i => i.id), 0) + 1;
+        const bugun = new Date().toISOString().split('T')[0];
+
+        const yeniIlan = {
+            id: yeniId,
+            tip: tip,
+            acil: acil,
+            detay: detay,
+            konum: konum,
+            tarih: bugun,
+            baslik: baslik,
+            kategori: kategori
+        };
+
+        // İlanı listeye ekle
+        ilanlar.unshift(yeniIlan);
+        localStorage.setItem("afet_ilanlar", JSON.stringify(ilanlar));
+
+        // Formu sıfırla ve kapat
+        ilanForm.reset();
+        ilanModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+
+        // Arayüzü güncelle
+        kategorileriOlustur();
+        ilanlariFiltrele();
+        toastGoster(`"${baslik}" ilanınız başarıyla eklendi!`);
+    });
+}
+
+// ============================================================
+//  AFET SEKMELERİ (Tab Switching)
+// ============================================================
+function afetSekmeleriniAyarla() {
+    const tabContainer = document.getElementById("disaster-tabs");
+    if (!tabContainer) return;
+
+    tabContainer.querySelectorAll(".disaster-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            // Aktif tab'ı değiştir
+            tabContainer.querySelectorAll(".disaster-tab").forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            // İçerikleri değiştir
+            const hedef = tab.dataset.disaster;
+            document.querySelectorAll(".disaster-content").forEach(content => {
+                content.classList.remove("active");
+            });
+            const hedefContent = document.getElementById(`disaster-${hedef}`);
+            if (hedefContent) {
+                hedefContent.classList.add("active");
+            }
+        });
+    });
+}
+
+// ============================================================
 //  YILDIZ ANİMASYONU (Aurora Background)
 // ============================================================
 function yildizlariOlustur() {
@@ -400,13 +589,41 @@ function yildizlariOlustur() {
 }
 
 // ============================================================
+//  TEMA DEĞİŞTİRME (Light / Dark Mode)
+// ============================================================
+function temaAyarla() {
+    const themeToggle = document.getElementById("theme-toggle");
+    if (!themeToggle) return;
+
+    // Kayıtlı temayı yükle
+    const kayitliTema = localStorage.getItem("afet_tema");
+    if (kayitliTema) {
+        document.documentElement.setAttribute("data-theme", kayitliTema);
+    }
+
+    themeToggle.addEventListener("click", () => {
+        const mevcutTema = document.documentElement.getAttribute("data-theme");
+        const yeniTema = mevcutTema === "light" ? "dark" : "light";
+
+        document.documentElement.setAttribute("data-theme", yeniTema);
+        localStorage.setItem("afet_tema", yeniTema);
+
+        toastGoster(yeniTema === "light" ? "☀️ Aydınlık mod aktif" : "🌙 Karanlık mod aktif");
+    });
+}
+
+// ============================================================
 //  UYGULAMA BAŞLAT
 // ============================================================
 function uygulamayiBaslat() {
+    temaAyarla();
     yildizlariOlustur();
     verileriYukle();
     kategorileriOlustur();
     tipFiltreleriniAyarla();
+    aramaAyarla();
+    modalAyarla();
+    afetSekmeleriniAyarla();
     ilanlariFiltrele();
     gorevListesiniGuncelle();
 }
