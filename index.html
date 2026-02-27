@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afet Yardım Platformu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="aurora-bg">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+        <div class="stars" id="stars-container"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Çevrimdışı Uyarı Bandı -->
+    <div id="offline-banner" class="offline-banner hidden">
+        <div class="offline-inner">
+            <div class="offline-pulse"></div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+            <span>Çevrimdışı modasınız — Son kaydedilen veriler gösteriliyor</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a class="nav-brand" href="#">
+                    <div class="brand-icon">
+                        <div class="brand-icon-inner">🆘</div>
+                        <div class="brand-ring"></div>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">AfetYardım</span>
+                        <span class="brand-tagline">Kriz Koordinasyon Platformu</span>
+                    </div>
+                </a>
+                <div class="nav-stats">
+                    <div class="nav-stat" data-tooltip="Toplam İlan">
+                        <div class="nav-stat-icon">📋</div>
+                        <div class="nav-stat-content">
+                            <span class="nav-stat-num" id="stat-total">0</span>
+                            <span class="nav-stat-label">İlan</span>
+                        </div>
+                    </div>
+                    <div class="nav-stat nav-stat-danger" data-tooltip="Acil İlanlar">
+                        <div class="nav-stat-icon">🔴</div>
+                        <div class="nav-stat-content">
+                            <span class="nav-stat-num" id="stat-acil">0</span>
+                            <span class="nav-stat-label">Acil</span>
+                        </div>
+                    </div>
+                    <div class="nav-stat nav-stat-success" data-tooltip="Üstlendiğiniz">
+                        <div class="nav-stat-icon">✅</div>
+                        <div class="nav-stat-content">
+                            <span class="nav-stat-num" id="stat-ustlenilen">0</span>
+                            <span class="nav-stat-label">Görev</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-left">
+                    <div class="hero-badge">
+                        <span class="hero-badge-dot"></span>
+                        Canlı Platform
+                    </div>
+                    <h1 class="hero-title">
+                        Afet Anında<br>
+                        <span class="hero-gradient">Dayanışma Ağı</span>
+                    </h1>
+                    <p class="hero-desc">
+                        İhtiyaç sahiplerini gönüllü destekçilerle buluşturan, kriz anlarında bilgi kirliliğini ortadan kaldıran koordinasyon platformu.
+                    </p>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-cards-row">
+                        <div class="hero-stat-card hsc-need">
+                            <div class="hsc-glow"></div>
+                            <div class="hsc-icon">🔴</div>
+                            <div class="hsc-num" id="hero-ihtiyac">0</div>
+                            <div class="hsc-label">İhtiyaç İlanı</div>
+                        </div>
+                        <div class="hero-stat-card hsc-support">
+                            <div class="hsc-glow"></div>
+                            <div class="hsc-icon">🟢</div>
+                            <div class="hsc-num" id="hero-destek">0</div>
+                            <div class="hsc-label">Destek Teklifi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-glass">
+                <div class="filters-top">
+                    <h2 class="filters-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        Kategoriler
+                    </h2>
+                    <div class="type-filters">
+                        <button class="type-btn active" data-type="tumu">Tümü</button>
+                        <button class="type-btn type-ihtiyac" data-type="ihtiyac">İhtiyaçlar</button>
+                        <button class="type-btn type-destek" data-type="destek">Destekler</button>
+                    </div>
+                </div>
+                <div class="filter-buttons" id="filter-buttons">
+                    <!-- JS ile doldurulacak -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="results-bar">
+                <span class="results-count" id="results-count">0 ilan gösteriliyor</span>
+                <div class="results-line"></div>
+            </div>
+            <div class="ilan-grid" id="ilan-grid">
+                <!-- JS ile doldurulacak -->
+            </div>
+            <div class="empty-state hidden" id="empty-state">
+                <div class="empty-state-inner">
+                    <div class="empty-icon-wrap">
+                        <span class="empty-icon">📭</span>
+                    </div>
+                    <h3>Sonuç Bulunamadı</h3>
+                    <p>Bu kriterlere uygun ilan bulunamadı.<br>Filtreleri değiştirmeyi deneyin.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FAB - Görev Toggle -->
+    <div class="gorev-toggle" id="gorev-toggle" title="Üstlendiğim Görevler">
+        <div class="fab-ripple"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        <span class="gorev-badge" id="gorev-badge">0</span>
+    </div>
+
+    <!-- Görev Panel -->
+    <div class="gorev-panel hidden" id="gorev-panel">
+        <div class="gorev-header">
+            <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                Üstlendiğim Görevler
+            </h3>
+            <button class="gorev-close" id="gorev-close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="gorev-list" id="gorev-list"></div>
+        <div class="gorev-empty hidden" id="gorev-empty">
+            <p>Henüz üstlendiğiniz bir görev yok.</p>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay hidden" id="overlay"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">🆘 <strong>AfetYardım</strong></div>
+                <p class="footer-copy">&copy; 2026 Afet Yardım Platformu — Dayanışma ile güçlüyüz.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
